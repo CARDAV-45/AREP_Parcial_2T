@@ -7,8 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MathController {
 
-    @GetMapping("/greeting")
-    public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new Greeting(counter.incrementAndGet(), String.format(template, name));
+    @GetMapping("/search")
+    public String search(@RequestParam(value = "value") int value,
+            @RequestParam(value = "arr") String arrStr) {
+        int[] arr = Search.parseArray(arrStr);
+        int result = Search.binarySearch(arr, value, 0, arr.length - 1);
+        return "Output: " + result;
     }
 }
