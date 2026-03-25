@@ -19,7 +19,16 @@ public class Search {
     
         return binarySearch(arr, target, mit + 1, der);
     }
-    
+
+    public static int linearSearch(int[] arr, int target) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == target) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static int[] parseArray(String arrStr) {
         String[] parts = arrStr.split(",");
         int[] arr = new int[parts.length];

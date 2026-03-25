@@ -7,11 +7,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MathController {
 
-    @GetMapping("/search")
+    @GetMapping("/binarysearch")
     public String search(@RequestParam(value = "value") int value,
             @RequestParam(value = "arr") String arrStr) {
         int[] arr = Search.parseArray(arrStr);
         int result = Search.binarySearch(arr, value, 0, arr.length - 1);
-        return "Output: " + result;
+        return "Output: " + result ;
+
+    }
+    @GetMapping("/linearsearch")
+    public String linearSearch(@RequestParam(value = "value") int value,
+            @RequestParam(value = "arr") String arrStr) {
+        int[] arr = Search.parseArray(arrStr);
+        int result = Search.linearSearch(arr, value);
+        return "Output: " + result ;
     }
 }
