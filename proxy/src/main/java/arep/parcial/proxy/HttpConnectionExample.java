@@ -14,25 +14,57 @@ import org.springframework.web.bind.annotation.RestController;
 public class HttpConnectionExample {
 
     private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String URL1 = "http://3.88.197.52:8080";
-    private static final String URL2 = "http://44.212.0.20:8081";
+    private static final String URL1 = "http://localhost:8080";
+    private static final String URL2 = "http://localhost:8081";
 
     @GetMapping("/linearsearch")
-    public ProxyBody linearSearch(@RequestParam int[] array, @RequestParam int target) throws IOException {
+    public String linearSearch(@RequestParam int[] array, @RequestParam int target) throws IOException {
+        String inputList = arrayToString(array);
+        int result;
+
         try {
-            return new ProxyBody(getMethod(URL1 + "/linearsearch?array=" + arrayToString(array) + "&target=" + target));
+            result = Integer.parseInt(
+                getMethod(URL1 + "/linearsearch?arr=" + inputList + "&value=" + target)
+                         .replace("Output: ", "").trim()
+            );
         } catch (Exception e) {
-            return new ProxyBody(getMethod(URL2 + "/linearsearch?array=" + arrayToString(array) + "&target=" + target));
+            result = Integer.parseInt(
+                getMethod(URL2 + "/linearsearch?arr=" + inputList + "&value=" + target)
+                         .replace("Output: ", "").trim()
+            );
         }
+
+        return "{"
+                + "\"operation\":\"linearSearch\","
+                + "\"inputlist\":\"" + inputList + "\","
+                + "\"value\":\"" + target + "\","
+                + "\"output\":\"" + result + "\""
+                + "}";
     }
 
     @GetMapping("/binarysearch")
-    public ProxyBody binarySearch(@RequestParam int[] array, @RequestParam int target) throws IOException {
+    public String binarySearch(@RequestParam int[] array, @RequestParam int target) throws IOException {
+        String inputList = arrayToString(array);
+        int result;
+
         try {
-            return new ProxyBody(getMethod(URL1 + "/binarysearch?array=" + arrayToString(array) + "&target=" + target));
+            result = Integer.parseInt(
+                getMethod(URL1 + "/binarysearch?arr=" + inputList + "&value=" + target)
+                         .replace("Output: ", "").trim()
+            );
         } catch (Exception e) {
-            return new ProxyBody(getMethod(URL2 + "/binarysearch?array=" + arrayToString(array) + "&target=" + target));
+            result = Integer.parseInt(
+                getMethod(URL2 + "/binarysearch?arr=" + inputList + "&value=" + target)
+                         .replace("Output: ", "").trim()
+            );
         }
+
+        return "{"
+                + "\"operation\":\"binarySearch\","
+                + "\"inputlist\":\"" + inputList + "\","
+                + "\"value\":\"" + target + "\","
+                + "\"output\":\"" + result + "\""
+                + "}";
     }
 
     private String arrayToString(int[] array) {
@@ -46,7 +78,6 @@ public class HttpConnectionExample {
         return sb.toString();
     }
 
-
     private String getMethod(String GET_URL) throws IOException {
         URL obj = new URL(GET_URL);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -59,7 +90,7 @@ public class HttpConnectionExample {
         if (responseCode == HttpURLConnection.HTTP_OK) {
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }

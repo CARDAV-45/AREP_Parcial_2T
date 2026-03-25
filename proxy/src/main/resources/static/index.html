@@ -9,44 +9,41 @@
 
 <body>
     <h1>lineal</h1>
-    <form action="/linearSerch">
-        <label for="name">lista:</label><br>
-        <input type="text" id="name" name="name" value="[1,2,3]"><br><br>
-        <label for="name">search:</label><br>
-        <input type="text" id="name" name="name" value="3"><br><br>
-        <input type="button" value="Submit" onclick="loadGetMsg()">
-    </form>
+    <input type="text" id="listaLinear" value="1,2,3"><br><br>
+    <input type="text" id="searchLinear" value="3"><br><br>
+    <input type="button" value="Submit" onclick="loadLinear()">
     <div id="getrespmsg"></div>
+
     <script>
-        function loadGetMsg() {
-            let nameVar = document.getElementById("lista").value;
+        function loadLinear() {
+            let lista = document.getElementById("listaLinear").value;
+            let search = document.getElementById("searchLinear").value;
+
             const xhttp = new XMLHttpRequest();
             xhttp.onload = function () {
-                document.getElementById("getrespmsg").innerHTML =
-                    this.responseText;
+                document.getElementById("getrespmsg").innerHTML = this.responseText;
             }
-            xhttp.open("GET", "/linearSerch?value=" + nameVar);
+            xhttp.open("GET", "/linearsearch?array=" + encodeURIComponent(lista) + "&target=" + search);
             xhttp.send();
         }
     </script>
+
     <h1>binary</h1>
-    <form action="/binarySerch">
-        <label for="name">lista:</label><br>
-        <input type="text" id="name" name="name" value="[1,2,3]"><br><br>
-        <label for="name">search:</label><br>
-        <input type="text" id="name" name="name" value="3"><br><br>
-        <input type="button" value="Submit" onclick="loadGetMsg()">
-    </form>
+    <input type="text" id="listaBinary" value="1,2,3"><br><br>
+    <input type="text" id="searchBinary" value="3"><br><br>
+    <input type="button" value="Submit" onclick="loadBinary()">
     <div id="postrespmsg"></div>
+
     <script>
-        function loadGetMsg() {
-            let nameVar = document.getElementById("name").value;
+        function loadBinary() {
+            let lista = document.getElementById("listaBinary").value;
+            let search = document.getElementById("searchBinary").value;
+
             const xhttp = new XMLHttpRequest();
             xhttp.onload = function () {
-                document.getElementById("getrespmsg").innerHTML =
-                    this.responseText;
+                document.getElementById("postrespmsg").innerHTML = this.responseText;
             }
-            xhttp.open("GET", "/binarySerch?value=" + nameVar);
+            xhttp.open("GET", "/binarysearch?array=" + encodeURIComponent(lista) + "&target=" + search);
             xhttp.send();
         }
     </script>
