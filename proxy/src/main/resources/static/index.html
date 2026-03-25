@@ -8,13 +8,36 @@
 </head>
 
 <body>
-    <h1>Form with GET</h1>
-    <form action="/hello">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name" value="John"><br><br>
+    <h1>lineal</h1>
+    <form action="/linearSerch">
+        <label for="name">lista:</label><br>
+        <input type="text" id="name" name="name" value="[1,2,3]"><br><br>
+        <label for="name">search:</label><br>
+        <input type="text" id="name" name="name" value="3"><br><br>
         <input type="button" value="Submit" onclick="loadGetMsg()">
     </form>
     <div id="getrespmsg"></div>
+    <script>
+        function loadGetMsg() {
+            let nameVar = document.getElementById("lista").value;
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                document.getElementById("getrespmsg").innerHTML =
+                    this.responseText;
+            }
+            xhttp.open("GET", "/linearSerch?value=" + nameVar);
+            xhttp.send();
+        }
+    </script>
+    <h1>binary</h1>
+    <form action="/binarySerch">
+        <label for="name">lista:</label><br>
+        <input type="text" id="name" name="name" value="[1,2,3]"><br><br>
+        <label for="name">search:</label><br>
+        <input type="text" id="name" name="name" value="3"><br><br>
+        <input type="button" value="Submit" onclick="loadGetMsg()">
+    </form>
+    <div id="postrespmsg"></div>
     <script>
         function loadGetMsg() {
             let nameVar = document.getElementById("name").value;
@@ -23,23 +46,8 @@
                 document.getElementById("getrespmsg").innerHTML =
                     this.responseText;
             }
-            xhttp.open("GET", "/hello?name=" + nameVar);
+            xhttp.open("GET", "/binarySerch?value=" + nameVar);
             xhttp.send();
-        }
-    </script>
-    <h1>Form with POST</h1>
-    <form action="/hellopost">
-        <label for="postname">Name:</label><br>
-        <input type="text" id="postname" name="name" value="John"><br><br>
-        <input type="button" value="Submit" onclick="loadPostMsg(postname)">
-    </form>
-    <div id="postrespmsg"></div>
-    <script>
-        function loadPostMsg(name) {
-            let url = "/hellopost?name=" + name.value;
-            fetch(url, { method: 'POST' })
-                .then(x => x.text())
-                .then(y => document.getElementById("postrespmsg").innerHTML = y);
         }
     </script>
 </body>
